@@ -1,4 +1,5 @@
 ;;;; package.lisp
 
 (defpackage #:sbcl-librarian
-  (:use #:cl))
+  (:use #:cl)
+  (:export #:save #:install))

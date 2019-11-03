@@ -1,10 +1,14 @@
 ;;;; sbcl-librarian.asd
 
 (asdf:defsystem #:sbcl-librarian
-  :description "Describe sbcl-librarian here"
+  :description "Load up projects and dump the core somewhere."
   :author "Spenser Truex <web@spensertruex.com>"
   :license  "GNU GPL v3"
   :version "0.0.1"
   :serial t
-  :components ((:file "package")
-               (:file "sbcl-librarian")))
+  :components ((:file "CONFIG-ASDF")
+               (:file "CONFIG-QUICKLISP")
+               (:file "code/package")
+               (:file "code/early")
+               (:file "code/save")
+               (:file "code/install")))
