@@ -1,28 +1,27 @@
 (in-package #:sbcl-librarian)
 
-(defun save (&optional (core-path *core-path*))
+(defun update (&optional (core-path *core-path*))
   (load-configs)
+  (save core-path))
+
+(defun save (&optional (core-path *core-path*))
   ;; Should ensure that this is friendly. ~ is not allowed, does it actually
   ;; exist, etc.
-  (save-lisp-and-die
+  (sb-ext:save-lisp-and-die
    (asdf/pathname:ensure-absolute-pathname
-    (untilde core-path))))
+    core-path)))
 
 (defun load-configs ()
-  (with-open-file (q "CONFIG-QUICKLISP.lisp")
-    (with-open-file (a "CONFIG-ASDF.lisp")
-      (let ((qpack (verifying :quicklisp (read q)))
-            (apack (verifying :asdf (read a))))
-        (mapcar #'(lambda (fn lst)
-                    (mapc fn lst)
-                    (require lst))
-                `(#',ql:quickload #',asdf:load-system)
-                `(,apack ,qpack))))))
+  (mapcar #'(lambda (fn pkg)
+              (when pkg
+                (mapc fn pkg)
+                (require pkg)))
+          (list #'ql:quickload #'asdf:load-system)
+          (list (verify-ql *quicklisp-packages*)
+		(verify-asdf *asdf-packages*))))
 
-(defgeneric verifying (manager packages)
-  (:documentation "Verify that packages exist for a given manager."))
+(defun verify-ql (packages) packages)
+(defun verify-asdf (packages) packages)
 
 ;;; Would be nice to have an interface here with continuations, friendly output
 ;;; and warnings, etc.
-(defmethod verifying ((manager :quicklisp) packages) packages)
-(defmethod verifying ((manager :asdf) packages) packages)

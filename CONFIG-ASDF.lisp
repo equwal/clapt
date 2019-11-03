@@ -1,5 +1,4 @@
 (in-package #:sbcl-librarian)
-
 (defparameter *asdf-packages*
   '(
     ;; Example:

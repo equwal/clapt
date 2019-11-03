@@ -18,7 +18,18 @@ dumping a core once.
 
 ## Install
 
-We need to know which packages are needed, and whether they are from quicklisp. Modify `CONFIG-ASDF.lisp` and/or `CONFIG-QUICKLISP.lisp`.
+We need to know which packages are needed, and whether they are from quicklisp.
+
+
+1. Modify `CONFIG-ASDF.lisp` and/or `CONFIG-QUICKLISP.lisp` with the desired
+   packages.
+2. Install: `(sbcl-librarian:install)`. 
+
+## Updating packages
+
+Run `(sbcl-librarian:update)`.
+
+## 
 
 ## License
 
