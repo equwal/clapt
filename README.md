@@ -1,3 +1,14 @@
+;;;;;
+title: Librarian
+format: md
+date: 2019-11-02
+tags: articles
+excerpt: Faster SBCL startup with libraries.
+image: /static/librarian.png
+;;;;;
+
+![Librarian icon](https://spensertruex.com/static/librarian.png)
+
 # sbcl-librarian
 
 Instant SBCL startup with any number of ASDF libraries by loading the and
@@ -5,8 +16,7 @@ dumping a core once.
 
 ## Install
 
-We need to know which packages are needed, and whether they are from quicklisp.
-This is a lisp file. Modify `CONFIG-ASDF.lisp` and/or `CONFIG-QUICKLISP.lisp`.
+We need to know which packages are needed, and whether they are from quicklisp. Modify `CONFIG-ASDF.lisp` and/or `CONFIG-QUICKLISP.lisp`.
 
 ## License
 
