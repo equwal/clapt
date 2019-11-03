@@ -7,7 +7,9 @@ excerpt: Faster SBCL startup with libraries.
 image: /static/librarian.png
 ;;;;;
 
-![Librarian icon](https://spensertruex.com/static/librarian.png)
+[Official webpage](https://spensertruex.com/librarian)
+
+![Librarian icon](https://spensertruex.com/static/librarian-mini.png)
 
 # sbcl-librarian
 
