@@ -26,6 +26,10 @@ We need to know which packages are needed, and whether they are from quicklisp.
 2. Load the package: `(asdf:load-system :sbcl-librarian)`
 3. Install: `(sbcl-librarian:install)`. SBCL will save and die.
 
+By default sbcl-librarian will try to overwrite your installed core file. This
+may require root access on your system; alternatively, try
+`(sbcl-librarian:install :core "path-to-your-core")` for a different core.
+
 ## Updating packages
 
  `(sbcl-librarian:update)`. SBCL will save and die again.

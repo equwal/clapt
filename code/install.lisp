@@ -64,12 +64,11 @@
       (prin1 '(sbcl-librarian:update) sbclrc)
       (format sbclrc "~%"))))
 
-(defun backup-core (core &optional (backup #P".core.bak"))
-  (let ((backup (merge-pathnames backup core)))
-    (copy-file core backup (* 1024 1024))))
+(defun backup-core (core backup)
+  (copy-file core backup (* 1024 1024)))
 
-(defun install (&optional (sbclrc *sbclrc-path*) (core *core-path*))
-  (if (not (installedp sbclrc))
-      (write-to-init-file sbclrc core))
-  (backup-core core)
+(defun install (&key (sbclrc *sbclrc-path*) (core *core-path*))
+  (when (not (installedp sbclrc))
+    (write-to-init-file sbclrc core))
+  (backup-core core (merge-pathnames #P".core.bak" sbclrc))
   (update core))
