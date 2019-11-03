@@ -20,14 +20,15 @@ dumping a core once.
 
 We need to know which packages are needed, and whether they are from quicklisp.
 
-
 1. Modify `CONFIG-ASDF.lisp` and/or `CONFIG-QUICKLISP.lisp` with the desired
-   packages.
-2. Install: `(sbcl-librarian:install)`.
+   packages. Alternatively, set the `sbcl-librarian:*asdf-packages*` and/or
+   `sbcl-librarian:*quicklisp-packges*` in your `.sbclrc` file.
+2. Load the package: `(asdf:load-system :sbcl-librarian)`
+3. Install: `(sbcl-librarian:install)`. SBCL will save and die.
 
 ## Updating packages
 
-Run `(sbcl-librarian:update)`.
+ `(sbcl-librarian:update)`. SBCL will save and die again.
 
 ## License
 
