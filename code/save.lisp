@@ -1,4 +1,4 @@
-(in-package #:sbcl-librarian)
+(in-package #:clapt)
 
 (defun update (&optional (core *core-path*))
   (load-configs)

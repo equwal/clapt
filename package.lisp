@@ -1,4 +1,3 @@
-(defpackage #:sbcl-librarian
+(defpackage #:clapt
   (:use #:cl)
-  (:nicknames #:sblibr)
   (:export #:update #:install))

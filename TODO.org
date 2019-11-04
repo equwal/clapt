@@ -1,0 +1,18 @@
+#+TITLE: TODO list
+#+AUTHOR: Spenser Truex
+#+EMAIL: web@spensertruex.com
+
+- [0%] Support non-sbcl systems.
+  - [ ] Those with core image dumps.
+  - [ ] Those lacking such :: Just use an init script.
+- [0%] Error checking and clean continuations
+  - [0/2] Package failures :: Offer to modify init, or try another source.
+    - [ ] Non-existent packages.
+    - [ ] Packages failing to load.
+  - [0/2] Core image checks :: Revert safely.
+    - [ ] Core backup failed.
+    - [ ] Check for dirty core image.
+
+- [X] Rename. equwal 2019-11-03
+- [ ] Add to quicklisp.
+- [ ] Continuous integration tests for dev. Use multiple lisps for support.

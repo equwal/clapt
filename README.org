@@ -1,0 +1,66 @@
+;;;;;
+title: Clapt
+format: org
+date: 2019-11-02
+tags: articles
+excerpt: Keep a list of packages efficiently installed.
+image: /static/librarian.png
+;;;;;
+#+EMAIL: web@spensertruex.com
+[[https://spensertruex.com/librarian][Official webpage]]
+#+OPTIONS: email:t toc:2
+#+VERSION: 0.0.2
+
+#+caption: Librarian icon
+[[file:https://spensertruex.com/static/librarian-mini.png]]
+
+#+begin_quote
+Clapt, having been clapt into existence, is the apt CL package manager.
+#+end_quote
+
+* Clapt
+A package managing /client/. Keep a list of packages efficiently installed.
+* Install
+We need to know which packages are needed, and whether they are from quicklisp.
+1. =(asdf:load-system :clapt)=
+2. =(clapt:install)=. SBCL will save and die.
+By default clapt will try to overwrite your installed core file. This
+may require root access on your system; alternatively, try
+=(clapt:install :core "path-to-your-core")= for a different core.
+* Adding packages
+Call =clapt:add= with the manager and packages. Current managers are =:asdf= and
+=:quicklisp=.
+* Updating packages
+#+begin_src common-lisp :tangle no
+(clapt:update)
+#+end_src
+
+* Rationale
+Loading a lot of packages from a script is slow, and having to reload the image
+manually on every update is too laborious. A simple package manager
+* Alternatives
+- Just write an init script for your lisp like:
+#+begin_src common-lisp :tangle no
+(ql:quickload :petalisp)
+(qul:quickload :coleslaw)
+;;; ... etc.
+#+end_src
+This is fine if the number of packages is low. Eventually it can start to take
+too long.
+- Store your core manually.
+  1. Write a script like the one above.
+  2. =load= it.
+  3. Save your core. SBCL has =sb-ext:save-lisp-and-die= for this.
+  4. Start your lisp with =sbcl --core "path/to/core"= or similar.
+This is essentially what this script does, but lacks backups and needs to be
+done every time the lisp is updated.
+- clpm is another attempt at the same, and has the benefit of removing itself
+  from the core. It has dependencies, and is a bit involved to use.
+
+* Supported Systems
+Looking to increase the number of items here:
+- SBCL
+- Clisp
+- CCL
+* License
+GNU GPL v3
