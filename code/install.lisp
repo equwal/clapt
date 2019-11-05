@@ -1,6 +1,6 @@
 (in-package #:clapt)
 
-(defparameter *installed* ";;; Leave this line for sbcl-librarian!")
+(defparameter *installed* ";;; Leave this line for clapt!")
 (defparameter *logstream* t)
 (defparameter *userstream* t)
 
@@ -12,7 +12,7 @@
      "User configured Packages for "
      (string-downcase (symbol-name manager))
      ". `clapt:add' is a convenience wrapper for it.")))
-#+5am (packages-doc :quicklisp)
+;; (packages-doc :quicklisp)
 
 
 (defun install (&key (sbclrc *sbclrc-path*) (core *core-path*)
@@ -23,6 +23,12 @@
   (backup-core core (merge-pathnames #P".core.bak" sbclrc))
   (update core))
 
+(defun installedp (sbclrc-path)
+  "Determine if sbcl-librarian is installed in the .sbclrc."
+  (with-open-file (sbclrc sbclrc-path
+                          :direction :input
+                          :if-does-not-exist nil)
+    (when sbclrc (until sbclrc *installed*))))
 
 (defmacro warner (level datum &rest arguments)
   "Use log  to manage output."
@@ -37,7 +43,7 @@
     (user `(format *userstream* ,datum ,@arguments))
     (otherwise (error "Bad warning spec."))))
 
-#+5am (backup-core #p"~/org/sbcl.org" #p"~/example.delete")
+;; (backup-core #p"~/org/sbcl.org" #p"~/example.delete")
 (defun backup-core (core backup)
   "Save original core image."
   (handler-case (copy-file core backup)
@@ -82,15 +88,25 @@ installed. Provides persistence even when a new version is built."
                      :if-exists :append
                      :if-does-not-exist :create)
     (when (not (installedp sbclrc))
+      (init s sbclrc)
       (parameterize s systema)
       (self-install s core))))
 
+(defun init (stream init)
+  (prin1
+   `(defvar *init-file* ,(format nil "~S" init))
+   stream))
+
+
+
+(defun manager-packages-variable (manager)
+  (intern (concatenate 'string "*" (symbol-name manager) "-PACKAGES*")
+          (find-package :clapt)))
 (defun package-parameter (packages manager)
-  `(defvar ,(intern (symbol-name manager)
-                          (find-package :keyword))
+  `(defvar ,(manager-packages-variable manager)
      ',packages
      ,(packages-doc manager)))
-#+5am (package-parameter '(petalisp) :quicklisp)
+;; (package-parameter '(petalisp) :quicklisp)
 
 (defun self-install (sbclrc core)
   (declare (stream sbclrc))
@@ -110,4 +126,4 @@ installed. Provides persistence even when a new version is built."
   (declare (stream sbclrc))
   (mapcar #'(lambda (code) (prin1 code sbclrc))
           (loop for s in systema
-                collect (package-parameter systema s))))
+                collect (package-parameter nil s))))

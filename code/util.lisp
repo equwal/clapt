@@ -30,8 +30,6 @@
                    0))))
 ;; (copy-file #p"/home/jose/org/sbcl.org" #p"/home/jose/example.delete")
 
-
-
 (defun until (stream match)
   (let ((line (read-line stream nil nil)))
     (when line
