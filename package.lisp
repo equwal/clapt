@@ -1,3 +1,3 @@
 (defpackage #:clapt
   (:use #:cl)
-  (:export #:update #:install))
+  (:export #:update #:install #:add))

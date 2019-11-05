@@ -4,17 +4,6 @@
 (defparameter *logstream* t)
 (defparameter *userstream* t)
 
-(eval-when (:compile-toplevel :load-toplevel :execute)
-  (defun packages-doc (manager)
-    (format
-     nil
-     "~A~A~A"
-     "User configured Packages for "
-     (string-downcase (symbol-name manager))
-     ". `clapt:add' is a convenience wrapper for it.")))
-;; (packages-doc :quicklisp)
-
-
 (defun install (&key (sbclrc *sbclrc-path*) (core *core-path*)
                   (add '(:quicklisp :asdf)))
   "Install clapt."
@@ -94,18 +83,27 @@ installed. Provides persistence even when a new version is built."
 
 (defun init (stream init)
   (print
-   `(defvar *init-file* ,init)
+   `(setf *init-file* ,init)
    stream))
-
 
 
 (defun manager-packages-variable (manager)
   (intern (concatenate 'string "*" (symbol-name manager) "-PACKAGES*")
           (find-package :clapt)))
+(defun manager-packages (manager)
+  (symbol-value (manager-packages-variable manager)))
+(defun pushnew-package (manager package)
+  ;; Needs EVAL because the interface -- anaphoric interning -- is not very
+  ;; good.
+  (eval (let ((packages (manager-packages manager)))
+          `(setf ,(manager-packages-variable manager)
+                 ',(pushnew package packages)))))
+;; (let ((q :quicklisp)) (pushnew-package q 'bogus))
+;; (manager-packages :quicklisp)
+
 (defun package-parameter (packages manager)
-  `(defvar ,(manager-packages-variable manager)
-     ',packages
-     ,(packages-doc manager)))
+  `(setf ,(manager-packages-variable manager)
+     ',packages))
 ;; (package-parameter '(petalisp) :quicklisp)
 
 (defun self-install (sbclrc)

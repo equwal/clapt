@@ -5,7 +5,9 @@
   :version "0.0.2"
   :serial t
   :components ((:file "package")
+               (:file "conditions")
                (:file "code/util")
                (:file "code/defaults")
                (:file "code/save")
-               (:file "code/install")))
+               (:file "code/install")
+               (:file "code/add")))
