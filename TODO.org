@@ -9,8 +9,8 @@
   - [0/2] Package failures :: Offer to modify init, or try another source.
     - [ ] Non-existent packages.
     - [ ] Packages failing to load.
-  - [0/2] Core image checks :: Revert safely.
-    - [ ] Core backup failed.
+  - [1/2] Core image checks :: Revert safely.
+    - [X] Core backup failed.
     - [ ] Check for dirty core image.
 
 - [X] Rename. equwal 2019-11-03

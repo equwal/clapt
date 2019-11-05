@@ -18,19 +18,19 @@
              (copy-stream from to size buffer 0))))
 
 (defun copy-file (from to &optional (buffer-size 1024))
-  (with-open-file (fr from
-                      :element-type 'unsigned-byte
-                      :if-does-not-exist nil)
-    (if fr
-        (with-open-file (to to :direction :output
-                               :if-exists nil ;Want it to stay ORIGINAL.
-                               :if-does-not-exist :create
-                               :element-type 'unsigned-byte)
-          (when to
-            (copy-stream fr to buffer-size
-                         (make-array buffer-size :element-type 'unsigned-byte)
-                         0)))
-        (warn "~%~%The core does not exist, sbcl will have to be started with the --core ~S option to enable the sbcl-librarian libraries core.~%~%" from))))
+  "Copy a file, require file handling."
+  (with-open-file (fr from :element-type 'unsigned-byte
+                           :if-does-not-exist :error)
+    (with-open-file (to to :direction :output
+                           :if-exists :error
+                           :if-does-not-exist :create
+                           :element-type 'unsigned-byte)
+      (copy-stream fr to buffer-size
+                   (make-array buffer-size :element-type 'unsigned-byte)
+                   0))))
+;; (copy-file #p"/home/jose/org/sbcl.org" #p"/home/jose/example.delete")
+
+
 
 (defun until (stream match)
   (let ((line (read-line stream nil nil)))
