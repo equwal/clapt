@@ -19,7 +19,7 @@
                   (add '(:quicklisp :asdf)))
   "Install clapt."
   (when (not (installedp sbclrc))
-    (write-to-init-file sbclrc core add))
+    (write-to-init-file sbclrc add))
   (backup-core core (merge-pathnames #P".core.bak" sbclrc))
   (update core))
 
@@ -80,7 +80,7 @@
                          (format nil "~%failure path: ") fail
                          (format nil "~%"))))))))
 
-(defun write-to-init-file (sbclrc core systema)
+(defun write-to-init-file (sbclrc systema)
   "Common Lisp code in the init file for cl-apt to install itself if not
 installed. Provides persistence even when a new version is built."
   (with-open-file (s sbclrc
@@ -88,13 +88,13 @@ installed. Provides persistence even when a new version is built."
                      :if-exists :append
                      :if-does-not-exist :create)
     (when (not (installedp sbclrc))
-      (init s sbclrc)
+      (self-install s)
       (parameterize s systema)
-      (self-install s core))))
+      (init s sbclrc))))
 
 (defun init (stream init)
-  (prin1
-   `(defvar *init-file* ,(format nil "~S" init))
+  (print
+   `(defvar *init-file* ,init)
    stream))
 
 
@@ -108,22 +108,17 @@ installed. Provides persistence even when a new version is built."
      ,(packages-doc manager)))
 ;; (package-parameter '(petalisp) :quicklisp)
 
-(defun self-install (sbclrc core)
+(defun self-install (sbclrc)
   (declare (stream sbclrc))
-  (declare (pathname core))
-  (format sbclrc "~%~A~%" *installed*)
-  (prin1 `(progn
-            (when (probe-file ,core))
-            (pushnew :clapt *features*))
-         sbclrc)
   (format sbclrc "~%~A~%" "#-clapt")
   (prin1 '(asdf:load-system :clapt) sbclrc)
   (format sbclrc "~%~A~%" "#-clapt")
   (prin1 '(clapt:update) sbclrc)
-  (format sbclrc "~%"))
+  (format sbclrc "~%")
+  (format sbclrc "~%~A~%" *installed*))
 
 (defun parameterize (sbclrc systema)
   (declare (stream sbclrc))
-  (mapcar #'(lambda (code) (prin1 code sbclrc))
+  (mapcar #'(lambda (code) (print code sbclrc))
           (loop for s in systema
                 collect (package-parameter nil s))))
