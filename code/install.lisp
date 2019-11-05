@@ -9,8 +9,7 @@
   "Install clapt."
   (when (not (installedp sbclrc))
     (write-to-init-file sbclrc add))
-  (backup-core core (merge-pathnames #P".core.bak" sbclrc))
-  (update core))
+  (backup-core core (merge-pathnames #P".core.bak" sbclrc)))
 
 (defun installedp (sbclrc-path)
   "Determine if sbcl-librarian is installed in the .sbclrc."

@@ -37,12 +37,12 @@ Call =clapt:add= with the manager and packages. Current managers are =:asdf= and
 
 * Rationale
 Loading a lot of packages from a script is slow, and having to reload the image
-manually on every update is too laborious. A simple package manager
+manually on every update is too laborious. A simple package manager should be able to do all of that.
 * Alternatives
 - Just write an init script for your lisp like:
 #+begin_src common-lisp :tangle no
 (ql:quickload :petalisp)
-(qul:quickload :coleslaw)
+(ql:quickload :coleslaw)
 ;;; ... etc.
 #+end_src
 This is fine if the number of packages is low. Eventually it can start to take
@@ -59,8 +59,13 @@ done every time the lisp is updated.
 
 * Supported Systems
 Looking to increase the number of items here:
-- SBCL
-- Clisp
-- CCL
+- SUPPORTED:
+  - SBCL
+- TO BE SUPPORTED:
+  - Clisp
+  - CCL
+  -
+* Contributing
+  See the TODO file for ideas
 * License
 GNU GPL v3
