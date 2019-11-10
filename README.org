@@ -1,16 +1,8 @@
-;;;;;
-title: Clapt
-format: org
-date: 2019-11-02
-tags: articles
-excerpt: Keep a list of packages efficiently installed.
-image: /static/librarian.png
-;;;;;
 #+EMAIL: web@spensertruex.com
-[[https://spensertruex.com/librarian][Official webpage]]
 #+OPTIONS: email:t toc:2
 #+VERSION: 0.0.2
 
+Archived. Use [[https://github.com/roswell/roswell][roswell]] instead.
 #+caption: Librarian icon
 [[file:https://spensertruex.com/static/librarian-mini.png]]
 
